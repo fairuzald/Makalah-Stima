@@ -105,18 +105,18 @@ def processing(real_images, noisy_images, tc):
     # Baca gambar asli
     noise = cv2.imread(noisy_images, cv2.IMREAD_GRAYSCALE)
 
+    # Terapkan filter median tanpa metode divide and conquer
+    start_time = time.time()
+    filtered_image_naive = naive_median_filter(noise, kernel_size)
+    end = time.time()
+    print("Time for naive:", end - start_time)
+
     # Terapkan filter median dengan metode divide and conquer
     start_time = time.time()
     filtered_image_dc = parallel_median_filter(noise, kernel_size)
     end = time.time()
-    print("Time for naive:", end - start_time)
-
-    start_time = time.time()
-    filtered_image_naive = naive_median_filter(noise, kernel_size)
-    end = time.time()
     print("Time for divide and conquer:", end - start_time)
 
-    # Terapkan filter median tanpa metode divide and conquer
     filtered_image_bawaan_cv = cv2.medianBlur(noise, kernel_size)
 
     # Hitung nilai SSIM antara gambar asli dan gambar hasil filter median dari kedua pendekatan
